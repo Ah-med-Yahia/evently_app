@@ -5,7 +5,7 @@ class LoveTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('love'),
     );
   }
