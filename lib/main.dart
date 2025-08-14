@@ -25,7 +25,7 @@ class EventlyApp extends StatelessWidget {
         LoginScreen.routeName:(_)=> const LoginScreen(),
         RegisterScreen.routeName:(_)=> const RegisterScreen(),
       },
-      initialRoute: LoginScreen.routeName,
+      initialRoute: HomeScreen.routeName,
     );
   }
 }

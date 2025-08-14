@@ -1,3 +1,4 @@
+import 'package:evently_app/tabs/home/home_header.dart';
 import 'package:flutter/material.dart';
 
 class HomeTab extends StatelessWidget {
@@ -5,8 +6,10 @@ class HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('home'),
+    return const Column(
+      children: [
+        HomeHeader(),
+      ],
     );
   }
 }
