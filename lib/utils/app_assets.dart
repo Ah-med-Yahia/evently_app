@@ -13,6 +13,11 @@ class AppAssets {
   static const String userNameIcon= 'assets/icons/user_name_icon.svg';
   static const String searchIcon= 'assets/icons/search_icon.svg';
   static const String bottomArrowIcon= 'assets/icons/bottom_arrow.svg';
+  static const String noteEditIcon= 'assets/icons/Note_Edit.svg';
+  static const String calendarDaysIcon= 'assets/icons/Calendar_Days.svg';
+  static const String clockIcon= 'assets/icons/Clock.svg';
+  static const String locationIcon= 'assets/icons/location.svg';
+  static const String userBackground = 'assets/images/profile_background.png';
   static const String birthDayBackground = "assets/images/birthday_background.png";
   static const String bookClubBackground = "assets/images/book_club_background.png";
   static const String eatingBackground = "assets/images/eating_background.png";
