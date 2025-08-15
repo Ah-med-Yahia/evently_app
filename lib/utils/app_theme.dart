@@ -70,11 +70,11 @@ class AppTheme {
         color: grey,
       ),
       enabledBorder: OutlineInputBorder(
-        borderSide: const BorderSide(width: 1,color: grey),
+        borderSide: const BorderSide(width: 1,color: primaryColor),
         borderRadius: BorderRadius.circular(16)
       ),
       focusedBorder: OutlineInputBorder(
-        borderSide: const BorderSide(width: 1,color: grey),
+        borderSide: const BorderSide(width: 1,color: primaryColor),
         borderRadius: BorderRadius.circular(16)
       ),
       errorBorder: OutlineInputBorder(

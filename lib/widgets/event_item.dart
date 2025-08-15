@@ -1,3 +1,4 @@
+import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +16,7 @@ class EventItem extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
-              '',
+              AppAssets.birthDayBackground,
               height: screenSize.height * .23,
               width: double.infinity,
               fit: BoxFit.fill,

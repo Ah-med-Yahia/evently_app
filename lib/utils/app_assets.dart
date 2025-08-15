@@ -11,6 +11,8 @@ class AppAssets {
   static const String emailIcon= 'assets/icons/email_icon.svg';
   static const String passwordIcon= 'assets/icons/password_icon.svg';
   static const String userNameIcon= 'assets/icons/user_name_icon.svg';
+  static const String searchIcon= 'assets/icons/search_icon.svg';
+  static const String bottomArrowIcon= 'assets/icons/bottom_arrow.svg';
   static const String birthDayBackground = "assets/images/birthday_background.png";
   static const String bookClubBackground = "assets/images/book_club_background.png";
   static const String eatingBackground = "assets/images/eating_background.png";
