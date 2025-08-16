@@ -1,4 +1,3 @@
-import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 
 class TabItem extends StatelessWidget {
@@ -25,8 +24,9 @@ class TabItem extends StatelessWidget {
       decoration: BoxDecoration(
           color: isSelected ? selectedBackgroundColor : Colors.transparent,
           borderRadius: BorderRadius.circular(46),
-          border:
-              isSelected ? null : Border.all(width: 1, color: AppTheme.white)),
+          border: isSelected
+              ? null
+              : Border.all(width: 1, color: unSelectedForegroundColor)),
       child: Row(
         children: [
           Icon(
