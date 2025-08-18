@@ -1,4 +1,6 @@
+import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/category_model.dart';
+import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/tabs/home/tab_item.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_theme.dart';
@@ -6,6 +8,7 @@ import 'package:evently_app/widgets/custome_elevated_button.dart';
 import 'package:evently_app/widgets/custome_text_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -20,6 +23,11 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   TextEditingController eventTitleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  int currentIndex = 0;
+  CategoryModel currentCategory = CategoryModel.categories.first;
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
+  DateFormat dateFormat = DateFormat('d/M/yyyy');
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +42,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
             padding: const EdgeInsets.all(16),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(16),
-              child: Image.asset(AppAssets.sportBackground),
+              child: Image.asset(currentCategory.image),
             ),
           ),
           DefaultTabController(
@@ -46,11 +54,18 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
               tabAlignment: TabAlignment.start,
               labelPadding: const EdgeInsets.only(right: 10),
               padding: const EdgeInsets.only(left: 16),
+              onTap: (index) {
+                if (currentIndex == index) return;
+                currentIndex = index;
+                currentCategory = CategoryModel.categories[currentIndex];
+                setState(() {});
+              },
               tabs: CategoryModel.categories
                   .map((category) => TabItem(
                       text: category.name,
                       icon: category.icon,
-                      isSelected: false,
+                      isSelected: currentIndex ==
+                          CategoryModel.categories.indexOf(category),
                       selectedForegroundColor: AppTheme.white,
                       unSelectedForegroundColor: AppTheme.primaryColor,
                       selectedBackgroundColor: AppTheme.primaryColor))
@@ -123,9 +138,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                               firstDate: DateTime.now(),
                               lastDate: DateTime.now()
                                   .add(const Duration(days: 365)));
+                          if (date != null) {
+                            selectedDate = date;
+                            setState(() {});
+                          }
                         },
                         child: Text(
-                          'Choose Date',
+                          selectedDate == null
+                              ? 'Choose Date'
+                              : dateFormat.format(selectedDate!),
                           style: textTheme.titleMedium!
                               .copyWith(color: AppTheme.primaryColor),
                         ),
@@ -148,9 +169,15 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         onTap: () async {
                           TimeOfDay? time = await showTimePicker(
                               context: context, initialTime: TimeOfDay.now());
+                          if (time != null) {
+                            selectedTime = time;
+                            setState(() {});
+                          }
                         },
                         child: Text(
-                          'Choose Time',
+                          selectedTime == null
+                              ? 'Choose Time'
+                              : selectedTime!.format(context),
                           style: textTheme.titleMedium!
                               .copyWith(color: AppTheme.primaryColor),
                         ),
@@ -172,6 +199,23 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   }
 
   void createEvent() {
-    if (formKey.currentState!.validate()) {}
+    if (formKey.currentState!.validate() &&
+        selectedDate != null &&
+        selectedTime != null) {
+      EventModel event = EventModel(
+          title: eventTitleController.text,
+          description: descriptionController.text,
+          category: currentCategory,
+          dateTime: DateTime(
+            selectedDate!.year,
+            selectedDate!.month,
+            selectedDate!.day,
+            selectedTime!.hour,
+            selectedTime!.minute,
+          ));
+      FirebaseServices.createEvent(event).then((_) {
+        Navigator.of(context).pop();
+      });
+    }
   }
 }
