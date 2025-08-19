@@ -1,11 +1,15 @@
-import 'package:evently_app/utils/app_assets.dart';
+import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class EventItem extends StatelessWidget {
   const EventItem({
     super.key,
+    required this.event,
   });
+
+  final EventModel event;
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +20,7 @@ class EventItem extends StatelessWidget {
         ClipRRect(
             borderRadius: BorderRadius.circular(16),
             child: Image.asset(
-              AppAssets.birthDayBackground,
+              event.category.image,
               height: screenSize.height * .23,
               width: double.infinity,
               fit: BoxFit.fill,
@@ -29,12 +33,12 @@ class EventItem extends StatelessWidget {
           child: Column(
             children: [
               Text(
-                '21',
+                '${event.dateTime.day}',
                 style: textTheme.titleLarge!.copyWith(
                     fontWeight: FontWeight.bold, color: AppTheme.primaryColor),
               ),
               Text(
-                'NOV',
+                DateFormat('MMM').format(event.dateTime),
                 style: textTheme.titleSmall!.copyWith(
                     fontWeight: FontWeight.bold, color: AppTheme.primaryColor),
               )
@@ -54,7 +58,7 @@ class EventItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    '',
+                    event.title,
                     style: textTheme.titleSmall!.copyWith(
                         fontWeight: FontWeight.bold, color: AppTheme.black),
                     maxLines: 2,
