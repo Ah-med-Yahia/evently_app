@@ -1,4 +1,7 @@
 import 'package:evently_app/auth/login_screen.dart';
+import 'package:evently_app/firebase_services.dart';
+import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/widgets/custome_elevated_button.dart';
 import 'package:evently_app/widgets/custome_text_form_field.dart';
@@ -57,7 +60,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
             const SizedBox(
               height: 24,
             ),
-            CustomeElevatedButton(label: 'Create Account', onPressed: () {}),
+            CustomeElevatedButton(
+                label: 'Create Account',
+                onPressed: () async {
+                  UserModel user = await register(emailContoller.text,
+                      passWordContoller.text, nameContoller.text);
+                  if (!context.mounted) return;
+                  Navigator.of(context).pushReplacementNamed(
+                      HomeScreen.routeName,);
+                }),
             const SizedBox(
               height: 20,
             ),
@@ -80,5 +91,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future<UserModel> register(String email, String password, String name) async {
+    return await FirebaseServices.register(
+        name: name, email: email, password: password);
   }
 }

@@ -1,5 +1,8 @@
+import 'package:evently_app/auth/login_screen.dart';
+import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/tabs/profile/profile_header.dart';
 import 'package:evently_app/utils/app_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTab extends StatefulWidget {
@@ -25,68 +28,102 @@ class _ProfileTabState extends State<ProfileTab> {
         const SizedBox(
           height: 24,
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Language',
-                    style: textTheme.titleLarge!.copyWith(
-                        color: AppTheme.black, fontWeight: FontWeight.bold),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: AppTheme.primaryColor),
-                      borderRadius: BorderRadius.circular(16),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Language',
+                      style: textTheme.titleLarge!.copyWith(
+                          color: AppTheme.black, fontWeight: FontWeight.bold),
                     ),
-                    child: DropdownButton(
-                      value: languages.first.code,
-                      items: languages
-                          .map((language) => DropdownMenuItem(
-                                value: language.code,
-                                child: Text(
-                                  language.name,
-                                  style: textTheme.titleLarge!.copyWith(
-                                      color: AppTheme.primaryColor,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ))
-                          .toList(),
-                      onChanged: (value) {},
-                      borderRadius: BorderRadius.circular(16),
-                      underline: const SizedBox(),
-                      iconEnabledColor: AppTheme.primaryColor,
-                      isExpanded: false,
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: AppTheme.primaryColor),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: DropdownButton(
+                        value: languages.first.code,
+                        items: languages
+                            .map((language) => DropdownMenuItem(
+                                  value: language.code,
+                                  child: Text(
+                                    language.name,
+                                    style: textTheme.titleLarge!.copyWith(
+                                        color: AppTheme.primaryColor,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ))
+                            .toList(),
+                        onChanged: (value) {},
+                        borderRadius: BorderRadius.circular(16),
+                        underline: const SizedBox(),
+                        iconEnabledColor: AppTheme.primaryColor,
+                        isExpanded: false,
+                      ),
                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Dark Theme',
+                        style: textTheme.titleLarge!.copyWith(
+                            color: AppTheme.black, fontWeight: FontWeight.bold),
+                      ),
+                      Switch(
+                        value: false,
+                        onChanged: (value) {},
+                        activeTrackColor: AppTheme.primaryColor,
+                      ),
+                    ]),
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  margin: const EdgeInsets.only(bottom: 30),
+                  decoration: BoxDecoration(
+                    color: AppTheme.red,
+                    borderRadius: BorderRadius.circular(16),
                   ),
-                ],
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                Text(
-                  'Dark Theme',
-                  style: textTheme.titleLarge!.copyWith(
-                      color: AppTheme.black, fontWeight: FontWeight.bold),
-                ),
-                Switch(
-                  value: false,
-                  onChanged: (value) {},
-                  activeTrackColor: AppTheme.primaryColor,
-                ),
-              ]),
-            ],
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.logout,
+                        size: 24,
+                        color: AppTheme.white,
+                      ),
+                      InkWell(
+                        onTap: () {
+                          FirebaseServices.logout().then((_) {
+                            Navigator.of(context)
+                                .pushReplacementNamed(LoginScreen.routeName);
+                          });
+                        },
+                        child: Text(
+                          'Logout',
+                          style: textTheme.titleLarge,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              ],
+            ),
           ),
-        )
+        ),
       ],
     );
   }

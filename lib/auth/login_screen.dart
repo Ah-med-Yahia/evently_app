@@ -1,4 +1,7 @@
 import 'package:evently_app/auth/register_screen.dart';
+import 'package:evently_app/firebase_services.dart';
+import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/widgets/custome_elevated_button.dart';
 import 'package:evently_app/widgets/custome_text_form_field.dart';
@@ -48,7 +51,15 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 24,
             ),
-            CustomeElevatedButton(label: 'Login', onPressed: () {}),
+            CustomeElevatedButton(
+                label: 'Login',
+                onPressed: () async {
+                  UserModel user =
+                      await login(emailContoller.text, passWordContoller.text);
+                  if (!context.mounted) return;
+                  Navigator.of(context)
+                      .pushReplacementNamed(HomeScreen.routeName);
+                }),
             const SizedBox(
               height: 20,
             ),
@@ -71,5 +82,9 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  Future<UserModel> login(String email, String password) async {
+    return await FirebaseServices.login(email: email, password: password);
   }
 }
