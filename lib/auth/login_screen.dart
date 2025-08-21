@@ -19,66 +19,86 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailContoller = TextEditingController();
   TextEditingController passWordContoller = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              AppAssets.logo,
-              fit: BoxFit.fill,
-              height: MediaQuery.sizeOf(context).height * .2,
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            CustomeTextFormField(
-              hintText: 'Email',
-              controller: emailContoller,
-              prefixIconImage: AppAssets.emailIcon,
-            ),
-            const SizedBox(
-              height: 16,
-            ),
-            CustomeTextFormField(
-              hintText: 'Password',
-              controller: passWordContoller,
-              prefixIconImage: AppAssets.passwordIcon,
-            ),
-            const SizedBox(
-              height: 24,
-            ),
-            CustomeElevatedButton(
-                label: 'Login',
-                onPressed: () async {
-                  UserModel user =
-                      await login(emailContoller.text, passWordContoller.text);
-                  if (!context.mounted) return;
-                  Navigator.of(context)
-                      .pushReplacementNamed(HomeScreen.routeName);
-                }),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'Don`t Have Account?',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                TextButton(
-                    onPressed: () {
+        child: Form(
+          key: formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                AppAssets.logo,
+                fit: BoxFit.fill,
+                height: MediaQuery.sizeOf(context).height * .2,
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CustomeTextFormField(
+                hintText: 'Email',
+                controller: emailContoller,
+                prefixIconImage: AppAssets.emailIcon,
+                validator: (value) {
+                  if (value == null || value.length < 5) {
+                    return 'Invalid Email';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 16,
+              ),
+              CustomeTextFormField(
+                hintText: 'Password',
+                isPassword: true,
+                controller: passWordContoller,
+                prefixIconImage: AppAssets.passwordIcon,
+                validator: (value) {
+                  if (value == null || value.length < 8) {
+                    return 'Invalid Password';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              CustomeElevatedButton(
+                  label: 'Login',
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      UserModel user = await login(
+                          emailContoller.text, passWordContoller.text);
+                      if (!context.mounted) return;
                       Navigator.of(context)
-                          .pushReplacementNamed(RegisterScreen.routeName);
-                    },
-                    child: const Text('Create Account'))
-              ],
-            )
-          ],
+                          .pushReplacementNamed(HomeScreen.routeName);
+                    }
+                  }),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Don`t Have Account?',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(RegisterScreen.routeName);
+                      },
+                      child: const Text('Create Account'))
+                ],
+              )
+            ],
+          ),
         ),
       ),
     );

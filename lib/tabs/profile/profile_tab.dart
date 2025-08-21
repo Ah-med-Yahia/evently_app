@@ -2,7 +2,6 @@ import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/tabs/profile/profile_header.dart';
 import 'package:evently_app/utils/app_theme.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTab extends StatefulWidget {

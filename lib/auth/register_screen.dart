@@ -23,6 +23,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Column(
@@ -54,6 +55,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             CustomeTextFormField(
               hintText: 'Password',
+              isPassword: true,
               controller: passWordContoller,
               prefixIconImage: AppAssets.passwordIcon,
             ),
@@ -67,7 +69,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       passWordContoller.text, nameContoller.text);
                   if (!context.mounted) return;
                   Navigator.of(context).pushReplacementNamed(
-                      HomeScreen.routeName,);
+                    HomeScreen.routeName,
+                  );
                 }),
             const SizedBox(
               height: 20,
