@@ -2,6 +2,7 @@ import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/category_model.dart';
 import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/tabs/home/tab_item.dart';
+import 'package:evently_app/ui_utils.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:evently_app/widgets/custome_elevated_button.dart';
@@ -36,164 +37,166 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
       appBar: AppBar(
         title: const Text('Create Event'),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Image.asset(currentCategory.image),
-            ),
-          ),
-          DefaultTabController(
-            length: CategoryModel.categories.length,
-            child: TabBar(
-              isScrollable: true,
-              dividerColor: Colors.transparent,
-              indicatorColor: Colors.transparent,
-              tabAlignment: TabAlignment.start,
-              labelPadding: const EdgeInsets.only(right: 10),
-              padding: const EdgeInsets.only(left: 16),
-              onTap: (index) {
-                if (currentIndex == index) return;
-                currentIndex = index;
-                currentCategory = CategoryModel.categories[currentIndex];
-                setState(() {});
-              },
-              tabs: CategoryModel.categories
-                  .map((category) => TabItem(
-                      text: category.name,
-                      icon: category.icon,
-                      isSelected: currentIndex ==
-                          CategoryModel.categories.indexOf(category),
-                      selectedForegroundColor: AppTheme.white,
-                      unSelectedForegroundColor: AppTheme.primaryColor,
-                      selectedBackgroundColor: AppTheme.primaryColor))
-                  .toList(),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Form(
-              key: formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Title',
-                    style: textTheme.titleMedium,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  CustomeTextFormField(
-                    hintText: 'Event Title',
-                    prefixIconImage: AppAssets.noteEditIcon,
-                    controller: eventTitleController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'You Should Type anything';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'Description',
-                    style: textTheme.titleMedium,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  CustomeTextFormField(
-                    hintText: 'Event Description',
-                    controller: descriptionController,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'You Should Type anything';
-                      }
-                      return null;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(AppAssets.calendarDaysIcon),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Event Date',
-                        style: textTheme.titleMedium,
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () async {
-                          DateTime? date = await showDatePicker(
-                              context: context,
-                              initialEntryMode:
-                                  DatePickerEntryMode.calendarOnly,
-                              firstDate: DateTime.now(),
-                              lastDate: DateTime.now()
-                                  .add(const Duration(days: 365)));
-                          if (date != null) {
-                            selectedDate = date;
-                            setState(() {});
-                          }
-                        },
-                        child: Text(
-                          selectedDate == null
-                              ? 'Choose Date'
-                              : dateFormat.format(selectedDate!),
-                          style: textTheme.titleMedium!
-                              .copyWith(color: AppTheme.primaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(AppAssets.clockIcon),
-                      const SizedBox(width: 10),
-                      Text(
-                        'Event Time',
-                        style: textTheme.titleMedium,
-                      ),
-                      const Spacer(),
-                      InkWell(
-                        onTap: () async {
-                          TimeOfDay? time = await showTimePicker(
-                              context: context, initialTime: TimeOfDay.now());
-                          if (time != null) {
-                            selectedTime = time;
-                            setState(() {});
-                          }
-                        },
-                        child: Text(
-                          selectedTime == null
-                              ? 'Choose Time'
-                              : selectedTime!.format(context),
-                          style: textTheme.titleMedium!
-                              .copyWith(color: AppTheme.primaryColor),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
-                  CustomeElevatedButton(
-                      label: 'Add Event', onPressed: createEvent)
-                ],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(currentCategory.image),
               ),
             ),
-          )
-        ],
+            DefaultTabController(
+              length: CategoryModel.categories.length,
+              child: TabBar(
+                isScrollable: true,
+                dividerColor: Colors.transparent,
+                indicatorColor: Colors.transparent,
+                tabAlignment: TabAlignment.start,
+                labelPadding: const EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(left: 16),
+                onTap: (index) {
+                  if (currentIndex == index) return;
+                  currentIndex = index;
+                  currentCategory = CategoryModel.categories[currentIndex];
+                  setState(() {});
+                },
+                tabs: CategoryModel.categories
+                    .map((category) => TabItem(
+                        text: category.name,
+                        icon: category.icon,
+                        isSelected: currentIndex ==
+                            CategoryModel.categories.indexOf(category),
+                        selectedForegroundColor: AppTheme.white,
+                        unSelectedForegroundColor: AppTheme.primaryColor,
+                        selectedBackgroundColor: AppTheme.primaryColor))
+                    .toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Title',
+                      style: textTheme.titleMedium,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CustomeTextFormField(
+                      hintText: 'Event Title',
+                      prefixIconImage: AppAssets.noteEditIcon,
+                      controller: eventTitleController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'You Should Type anything';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      'Description',
+                      style: textTheme.titleMedium,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    CustomeTextFormField(
+                      hintText: 'Event Description',
+                      controller: descriptionController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'You Should Type anything';
+                        }
+                        return null;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(AppAssets.calendarDaysIcon),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Event Date',
+                          style: textTheme.titleMedium,
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () async {
+                            DateTime? date = await showDatePicker(
+                                context: context,
+                                initialEntryMode:
+                                    DatePickerEntryMode.calendarOnly,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime.now()
+                                    .add(const Duration(days: 365)));
+                            if (date != null) {
+                              selectedDate = date;
+                              setState(() {});
+                            }
+                          },
+                          child: Text(
+                            selectedDate == null
+                                ? 'Choose Date'
+                                : dateFormat.format(selectedDate!),
+                            style: textTheme.titleMedium!
+                                .copyWith(color: AppTheme.primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      children: [
+                        SvgPicture.asset(AppAssets.clockIcon),
+                        const SizedBox(width: 10),
+                        Text(
+                          'Event Time',
+                          style: textTheme.titleMedium,
+                        ),
+                        const Spacer(),
+                        InkWell(
+                          onTap: () async {
+                            TimeOfDay? time = await showTimePicker(
+                                context: context, initialTime: TimeOfDay.now());
+                            if (time != null) {
+                              selectedTime = time;
+                              setState(() {});
+                            }
+                          },
+                          child: Text(
+                            selectedTime == null
+                                ? 'Choose Time'
+                                : selectedTime!.format(context),
+                            style: textTheme.titleMedium!
+                                .copyWith(color: AppTheme.primaryColor),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 24,
+                    ),
+                    CustomeElevatedButton(
+                        label: 'Add Event', onPressed: createEvent)
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -215,6 +218,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
           ));
       FirebaseServices.createEvent(event).then((_) {
         Navigator.of(context).pop();
+        UiUtils.showSuccessMessage('Event Created Succesfully 🤩');
+      }).catchError((error) {
+        UiUtils.showErrorMessage('Failed to create Event 😥');
       });
     }
   }
