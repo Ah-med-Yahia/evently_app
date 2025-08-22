@@ -8,6 +8,7 @@ class AppTheme {
   static const Color white = Color(0xFFFFFFFF);
   static const Color grey = Color(0xFF7B7B7B);
   static const Color red = Color(0xFFFF5659);
+  static const Color green = Colors.green;
 
   static ThemeData ligthTheme = ThemeData(
     appBarTheme: const AppBarTheme(

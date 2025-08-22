@@ -2,9 +2,11 @@ import 'package:evently_app/auth/register_screen.dart';
 import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/user_model.dart';
 import 'package:evently_app/screens/home_screen.dart';
+import 'package:evently_app/ui_utils.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/widgets/custome_elevated_button.dart';
 import 'package:evently_app/widgets/custome_text_form_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -70,14 +72,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               CustomeElevatedButton(
                   label: 'Login',
-                  onPressed: () async {
-                    if (formKey.currentState!.validate()) {
-                      UserModel user = await login(
-                          emailContoller.text, passWordContoller.text);
-                      if (!context.mounted) return;
-                      Navigator.of(context)
-                          .pushReplacementNamed(HomeScreen.routeName);
-                    }
+                  onPressed: () {
+                    login(emailContoller.text, passWordContoller.text);
                   }),
               const SizedBox(
                 height: 20,
@@ -104,7 +100,21 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<UserModel> login(String email, String password) async {
-    return await FirebaseServices.login(email: email, password: password);
+  Future<void> login(String email, String password) async {
+    if (formKey.currentState!.validate()) {
+      try {
+        UserModel user =
+            await FirebaseServices.login(email: email, password: password);
+        if (mounted) {
+          Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+        }
+      } catch (error) {
+        String? errorMessage;
+        if (error is FirebaseAuthException) {
+          errorMessage = error.message;
+        }
+        UiUtils.showErrorMessage(errorMessage);
+      }
+    }
   }
 }
