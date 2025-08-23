@@ -4,6 +4,7 @@ import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/auth/register_screen.dart';
 import 'package:evently_app/firebase_options.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/create_event_screen.dart';
 import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/utils/app_theme.dart';
@@ -16,9 +17,13 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ChangeNotifierProvider(
-      create: (context) => EventsProvider()..getEvents(),
-      child: const EventlyApp()));
+  runApp(
+    MultiProvider(providers: [
+      ChangeNotifierProvider(
+          create: (context) => EventsProvider()..getEvents()),
+      ChangeNotifierProvider(create: (context) => UserProvider()),
+    ], child: const EventlyApp()),
+  );
 }
 
 class EventlyApp extends StatelessWidget {

@@ -1,8 +1,10 @@
 import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/firebase_services.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/tabs/profile/profile_header.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileTab extends StatefulWidget {
   const ProfileTab({super.key});
@@ -109,6 +111,8 @@ class _ProfileTabState extends State<ProfileTab> {
                           FirebaseServices.logout().then((_) {
                             Navigator.of(context)
                                 .pushReplacementNamed(LoginScreen.routeName);
+                            Provider.of<UserProvider>(listen: false,context)
+                                .updateCurrentUser(null);
                           });
                         },
                         child: Text(

@@ -1,5 +1,6 @@
 import 'package:evently_app/models/category_model.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/tabs/home/tab_item.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class _HomeHeaderState extends State<HomeHeader> {
               style: textTheme.titleSmall,
             ),
             Text(
-              'User Name',
+              Provider.of<UserProvider>(context).currentUser!.name,
               style: textTheme.headlineSmall,
             ),
             const SizedBox(

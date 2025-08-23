@@ -1,6 +1,7 @@
 import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/ui_utils.dart';
 import 'package:evently_app/utils/app_assets.dart';
@@ -8,6 +9,7 @@ import 'package:evently_app/widgets/custome_elevated_button.dart';
 import 'package:evently_app/widgets/custome_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -116,6 +118,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
         UserModel? user = await FirebaseServices.register(
             name: name, email: email, password: password);
         if (mounted) {
+          Provider.of<UserProvider>(listen: false, context)
+              .updateCurrentUser(user);
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         }
       } catch (error) {
