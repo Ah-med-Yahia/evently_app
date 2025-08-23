@@ -9,7 +9,7 @@ import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -30,10 +30,10 @@ class EventlyApp extends StatelessWidget {
       themeMode: ThemeMode.light,
       title: 'Flutter Demo',
       routes: {
-        HomeScreen.routeName:(_)=> const HomeScreen(),
-        LoginScreen.routeName:(_)=> const LoginScreen(),
-        RegisterScreen.routeName:(_)=> const RegisterScreen(),
-        CreateEventScreen.routeName:(_)=> const CreateEventScreen(),
+        HomeScreen.routeName: (_) => const HomeScreen(),
+        LoginScreen.routeName: (_) => const LoginScreen(),
+        RegisterScreen.routeName: (_) => const RegisterScreen(),
+        CreateEventScreen.routeName: (_) => const CreateEventScreen(),
       },
       initialRoute: LoginScreen.routeName,
     );

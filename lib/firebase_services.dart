@@ -40,8 +40,8 @@ class FirebaseServices {
     UserCredential credential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
 
-    UserModel user =
-        UserModel(email: email, name: name, id: credential.user!.uid);
+    UserModel user = UserModel(
+        email: email, name: name, id: credential.user!.uid, favEventsIds: []);
 
     CollectionReference<UserModel> collectionUsers = getUsersCollections();
     await collectionUsers.doc(user.id).set(user);
@@ -63,4 +63,27 @@ class FirebaseServices {
   static Future<void> logout() {
     return FirebaseAuth.instance.signOut();
   }
+
+  Future<void> addFavEvents({required String eventId}) {
+    CollectionReference<UserModel> collectionUsers = getUsersCollections();
+    DocumentReference<UserModel> userDoc =
+        collectionUsers.doc(FirebaseAuth.instance.currentUser!.uid);
+    return userDoc.update(
+      {
+        'favEventsIds':FieldValue.arrayUnion([eventId])
+      }
+    );
+  }
+
+  Future<void> removeFavEvents({required String eventId}) {
+    CollectionReference<UserModel> collectionUsers = getUsersCollections();
+    DocumentReference<UserModel> userDoc =
+        collectionUsers.doc(FirebaseAuth.instance.currentUser!.uid);
+    return userDoc.update(
+      {
+        'favEventsIds':FieldValue.arrayRemove([eventId])
+      }
+    );
+  }
+
 }
