@@ -109,7 +109,8 @@ class _LoginScreenState extends State<LoginScreen> {
             await FirebaseServices.login(email: email, password: password);
 
         if (mounted) {
-          Provider.of<UserProvider>(listen: false,context).updateCurrentUser(user);
+          Provider.of<UserProvider>(listen: false, context)
+              .updateCurrentUser(user);
           Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
         }
       } catch (error) {

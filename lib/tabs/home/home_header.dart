@@ -1,5 +1,6 @@
 import 'package:evently_app/models/category_model.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/tabs/home/tab_item.dart';
 import 'package:evently_app/utils/app_theme.dart';
@@ -20,13 +21,16 @@ class _HomeHeaderState extends State<HomeHeader> {
   @override
   Widget build(BuildContext context) {
     EventsProvider eventsProvider = Provider.of<EventsProvider>(context);
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     TextTheme textTheme = Theme.of(context).textTheme;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.only(left: 16, bottom: 16),
-      decoration: const BoxDecoration(
-          color: AppTheme.primaryColor,
-          borderRadius: BorderRadius.only(
+      decoration: BoxDecoration(
+          color: settingsProvider.isDark()
+              ? AppTheme.backgroundDark
+              : AppTheme.primaryColor,
+          borderRadius: const BorderRadius.only(
               bottomLeft: Radius.circular(24),
               bottomRight: Radius.circular(24))),
       child: SafeArea(
@@ -66,9 +70,13 @@ class _HomeHeaderState extends State<HomeHeader> {
                         text: 'All',
                         icon: Icons.ac_unit_outlined,
                         isSelected: currentIndex == 0,
-                        selectedForegroundColor: AppTheme.primaryColor,
+                        selectedForegroundColor: settingsProvider.isDark()
+                            ? AppTheme.white
+                            : AppTheme.primaryColor,
                         unSelectedForegroundColor: AppTheme.white,
-                        selectedBackgroundColor: AppTheme.white),
+                        selectedBackgroundColor: settingsProvider.isDark()
+                            ? AppTheme.primaryColor
+                            : AppTheme.white),
                     ...CategoryModel.categories.map((category) => TabItem(
                         text: category.name,
                         icon: category.icon,

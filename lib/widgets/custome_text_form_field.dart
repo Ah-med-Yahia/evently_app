@@ -35,6 +35,7 @@ class _CustomeTextFormFieldState extends State<CustomeTextFormField> {
         FocusManager.instance.primaryFocus?.unfocus();
       },
       obscureText: isObsecure,
+      style: Theme.of(context).textTheme.titleMedium,
       decoration: InputDecoration(
         hintText: widget.hintText,
         prefixIcon: widget.prefixIconImage == null

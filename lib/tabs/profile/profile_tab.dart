@@ -1,5 +1,6 @@
 import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/firebase_services.dart';
+import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/tabs/profile/profile_header.dart';
 import 'package:evently_app/utils/app_theme.dart';
@@ -22,6 +23,7 @@ class _ProfileTabState extends State<ProfileTab> {
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
+    SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,7 +43,10 @@ class _ProfileTabState extends State<ProfileTab> {
                     Text(
                       'Language',
                       style: textTheme.titleLarge!.copyWith(
-                          color: AppTheme.black, fontWeight: FontWeight.bold),
+                          color: settingsProvider.isDark()
+                              ? AppTheme.white
+                              : AppTheme.black,
+                          fontWeight: FontWeight.bold),
                     ),
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -83,11 +88,16 @@ class _ProfileTabState extends State<ProfileTab> {
                       Text(
                         'Dark Theme',
                         style: textTheme.titleLarge!.copyWith(
-                            color: AppTheme.black, fontWeight: FontWeight.bold),
+                            color: settingsProvider.isDark()
+                                ? AppTheme.white
+                                : AppTheme.black,
+                            fontWeight: FontWeight.bold),
                       ),
                       Switch(
-                        value: false,
-                        onChanged: (value) {},
+                        value: settingsProvider.isDark(),
+                        onChanged: (isDark) {
+                          isDark? settingsProvider.changeTheme(ThemeMode.dark):settingsProvider.changeTheme(ThemeMode.light);
+                        },
                         activeTrackColor: AppTheme.primaryColor,
                       ),
                     ]),
@@ -111,7 +121,7 @@ class _ProfileTabState extends State<ProfileTab> {
                           FirebaseServices.logout().then((_) {
                             Navigator.of(context)
                                 .pushReplacementNamed(LoginScreen.routeName);
-                            Provider.of<UserProvider>(listen: false,context)
+                            Provider.of<UserProvider>(listen: false, context)
                                 .updateCurrentUser(null);
                           });
                         },

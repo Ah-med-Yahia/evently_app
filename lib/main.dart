@@ -4,6 +4,7 @@ import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/auth/register_screen.dart';
 import 'package:evently_app/firebase_options.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/create_event_screen.dart';
 import 'package:evently_app/screens/home_screen.dart';
@@ -22,6 +23,7 @@ Future<void> main() async {
       ChangeNotifierProvider(
           create: (context) => EventsProvider()..getEvents()),
       ChangeNotifierProvider(create: (context) => UserProvider()),
+      ChangeNotifierProvider(create:(context)=> SettingsProvider()),
     ], child: const EventlyApp()),
   );
 }
@@ -36,7 +38,7 @@ class EventlyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.ligthTheme,
       darkTheme: AppTheme.darkTheme,
-      themeMode: ThemeMode.light,
+      themeMode: Provider.of<SettingsProvider>(context).themeMode,
       title: 'Flutter Demo',
       routes: {
         HomeScreen.routeName: (_) => const HomeScreen(),
@@ -44,7 +46,7 @@ class EventlyApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => const RegisterScreen(),
         CreateEventScreen.routeName: (_) => const CreateEventScreen(),
       },
-      initialRoute: LoginScreen.routeName,
+      initialRoute: home.routeName,
     );
   }
 }
