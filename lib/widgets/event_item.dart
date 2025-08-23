@@ -1,7 +1,10 @@
 import 'package:evently_app/models/event_model.dart';
+import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class EventItem extends StatelessWidget {
   const EventItem({
@@ -15,6 +18,8 @@ class EventItem extends StatelessWidget {
   Widget build(BuildContext context) {
     Size screenSize = MediaQuery.sizeOf(context);
     TextTheme textTheme = Theme.of(context).textTheme;
+    UserProvider userProvider = Provider.of<UserProvider>(context);
+    bool isFav = userProvider.checkEventIsFav(eventId: event.id);
     return Stack(
       children: [
         ClipRRect(
@@ -69,9 +74,17 @@ class EventItem extends StatelessWidget {
                   width: 8,
                 ),
                 InkWell(
-                    onTap: () {},
-                    child: const Icon(
-                      Icons.favorite,
+                    onTap: () {
+                      if (isFav) {
+                        userProvider.removeEventFromoFav(eventId: event.id);
+                        Provider.of<EventsProvider>(listen: false,context)
+                            .filterFavEvents(userProvider.currentUser!.favEventsIds);
+                      } else {
+                        userProvider.addEventToFav(eventId: event.id);
+                      }
+                    },
+                    child: Icon(
+                      isFav ? Icons.favorite : Icons.favorite_border,
                       size: 24,
                       color: AppTheme.primaryColor,
                     )),

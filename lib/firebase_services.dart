@@ -64,7 +64,7 @@ class FirebaseServices {
     return FirebaseAuth.instance.signOut();
   }
 
-  Future<void> addFavEvents({required String eventId}) {
+  static Future<void> addFavEvents({required String eventId}) {
     CollectionReference<UserModel> collectionUsers = getUsersCollections();
     DocumentReference<UserModel> userDoc =
         collectionUsers.doc(FirebaseAuth.instance.currentUser!.uid);
@@ -75,7 +75,7 @@ class FirebaseServices {
     );
   }
 
-  Future<void> removeFavEvents({required String eventId}) {
+  static Future<void> removeFavEvents({required String eventId}) {
     CollectionReference<UserModel> collectionUsers = getUsersCollections();
     DocumentReference<UserModel> userDoc =
         collectionUsers.doc(FirebaseAuth.instance.currentUser!.uid);
