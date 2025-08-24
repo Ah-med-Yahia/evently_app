@@ -55,7 +55,7 @@ class _ProfileTabState extends State<ProfileTab> {
                         borderRadius: BorderRadius.circular(16),
                       ),
                       child: DropdownButton(
-                        value: languages.first.code,
+                        value: settingsProvider.languageCode,
                         items: languages
                             .map((language) => DropdownMenuItem(
                                   value: language.code,
@@ -67,7 +67,10 @@ class _ProfileTabState extends State<ProfileTab> {
                                   ),
                                 ))
                             .toList(),
-                        onChanged: (value) {},
+                        onChanged: (languageCode) {
+                          if (languageCode == null) return;
+                          settingsProvider.changeLanguage(languageCode);
+                        },
                         borderRadius: BorderRadius.circular(16),
                         underline: const SizedBox(),
                         iconEnabledColor: AppTheme.primaryColor,
@@ -96,7 +99,9 @@ class _ProfileTabState extends State<ProfileTab> {
                       Switch(
                         value: settingsProvider.isDark(),
                         onChanged: (isDark) {
-                          isDark? settingsProvider.changeTheme(ThemeMode.dark):settingsProvider.changeTheme(ThemeMode.light);
+                          isDark
+                              ? settingsProvider.changeTheme(ThemeMode.dark)
+                              : settingsProvider.changeTheme(ThemeMode.light);
                         },
                         activeTrackColor: AppTheme.primaryColor,
                       ),

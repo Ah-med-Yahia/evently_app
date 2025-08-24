@@ -153,11 +153,9 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                 firstDate: DateTime.now(),
                                 lastDate: DateTime.now()
                                     .add(const Duration(days: 365)));
-                            if (date != null) {
-                              selectedDate = date;
-                              setState(() {});
-                            }
-                          },
+                            selectedDate = date;
+                            setState(() {});
+                                                    },
                           child: Text(
                             selectedDate == null
                                 ? 'Choose Date'

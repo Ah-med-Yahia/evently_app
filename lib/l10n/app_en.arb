@@ -1,0 +1,21 @@
+{
+    "@@locale": "en",
+    "login":"Login",
+    "@login": {},
+    "register":"Register",
+    "@register": {},
+    "createAccount":"Create Account",
+    "@createAccount": {},
+    "logout":"Logout",
+    "@logout": {},
+    "have_no_account":"Don`t Have Account?",
+    "@have_no_account": {},
+    "have_account":"Already Have Account?",
+    "@have_account": {},
+    "email":"Email",
+    "@email": {},
+    "password":"Password",
+    "@password": {},
+    "name":"Name",
+    "@name": {}
+}

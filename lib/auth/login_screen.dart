@@ -10,6 +10,7 @@ import 'package:evently_app/widgets/custome_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -44,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24,
               ),
               CustomeTextFormField(
-                hintText: 'Email',
+                hintText: AppLocalizations.of(context)!.email,
                 controller: emailContoller,
                 prefixIconImage: AppAssets.emailIcon,
                 validator: (value) {
@@ -58,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 16,
               ),
               CustomeTextFormField(
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.password,
                 isPassword: true,
                 controller: passWordContoller,
                 prefixIconImage: AppAssets.passwordIcon,
@@ -73,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 24,
               ),
               CustomeElevatedButton(
-                  label: 'Login',
+                  label: AppLocalizations.of(context)!.login,
                   onPressed: () {
                     login(emailContoller.text, passWordContoller.text);
                   }),
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Don`t Have Account?',
+                    AppLocalizations.of(context)!.have_no_account,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   TextButton(
@@ -92,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.of(context)
                             .pushReplacementNamed(RegisterScreen.routeName);
                       },
-                      child: const Text('Create Account'))
+                      child: Text(AppLocalizations.of(context)!.createAccount))
                 ],
               )
             ],

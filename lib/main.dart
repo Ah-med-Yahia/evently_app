@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/auth/register_screen.dart';
 import 'package:evently_app/firebase_options.dart';
@@ -12,6 +11,9 @@ import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -46,7 +48,10 @@ class EventlyApp extends StatelessWidget {
         RegisterScreen.routeName: (_) => const RegisterScreen(),
         CreateEventScreen.routeName: (_) => const CreateEventScreen(),
       },
-      initialRoute: home.routeName,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      initialRoute: LoginScreen.routeName,
+      locale: Locale(Provider.of<SettingsProvider>(context).languageCode),
     );
   }
 }

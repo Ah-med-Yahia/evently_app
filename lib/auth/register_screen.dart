@@ -10,6 +10,7 @@ import 'package:evently_app/widgets/custome_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -45,7 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 24,
               ),
               CustomeTextFormField(
-                hintText: 'Name',
+                hintText: AppLocalizations.of(context)!.name,
                 controller: nameContoller,
                 prefixIconImage: AppAssets.userNameIcon,
               ),
@@ -53,7 +54,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 16,
               ),
               CustomeTextFormField(
-                hintText: 'Email',
+                hintText: AppLocalizations.of(context)!.email,
                 controller: emailContoller,
                 prefixIconImage: AppAssets.emailIcon,
                 validator: (value) {
@@ -67,7 +68,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 16,
               ),
               CustomeTextFormField(
-                hintText: 'Password',
+                hintText: AppLocalizations.of(context)!.password,
                 isPassword: true,
                 controller: passWordContoller,
                 prefixIconImage: AppAssets.passwordIcon,
@@ -82,7 +83,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 height: 24,
               ),
               CustomeElevatedButton(
-                  label: 'Create Account',
+                  label: AppLocalizations.of(context)!.createAccount,
                   onPressed: () {
                     register(emailContoller.text, passWordContoller.text,
                         nameContoller.text);
@@ -94,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Already Have Account?',
+                    AppLocalizations.of(context)!.have_account,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                   TextButton(
@@ -102,7 +103,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         Navigator.of(context)
                             .pushReplacementNamed(LoginScreen.routeName);
                       },
-                      child: const Text('Login'))
+                      child: Text(AppLocalizations.of(context)!.login))
                 ],
               )
             ],
