@@ -1,5 +1,7 @@
 class AppAssets {
+  static const String onboardingLogo= 'assets/images/onboarding_logo.png';
   static const String logo= 'assets/images/Logo.png';
+  static const String beingCreative= 'assets/images/beingcreative.png';
   static const String homeSelectedIcon= 'assets/icons/home_icon_selected.svg';
   static const String homeUnselectedIcon= 'assets/icons/home_icon_unselected.svg';
   static const String mapSelectedIcon= 'assets/icons/map_icon_selected.svg';
@@ -17,6 +19,12 @@ class AppAssets {
   static const String calendarDaysIcon= 'assets/icons/Calendar_Days.svg';
   static const String clockIcon= 'assets/icons/Clock.svg';
   static const String locationIcon= 'assets/icons/location.svg';
+  static const String usaIcon= 'assets/images/USA.png';
+  static const String egyptIcon= 'assets/images/EG.png';
+  static const String darkIcon= 'assets/icons/Moon.svg';
+  static const String lightIcon= 'assets/icons/Sun.svg';
+  static const String arrowRightIconLight= 'assets/icons/arrow_next.svg';
+  static const String arrowLeftIconLight= 'assets/icons/arrow_back_light.svg';
   static const String userBackground = 'assets/images/profile_background.png';
   static const String birthDayBackground = "assets/images/birthday_background.png";
   static const String bookClubBackground = "assets/images/book_club_background.png";
@@ -27,4 +35,7 @@ class AppAssets {
   static const String meetingBackground = "assets/images/meeting_background.png";
   static const String sportBackground = "assets/images/sport_background.png";
   static const String workshopBackground = "assets/images/workshop_background.png";
+  static const String onboarding1 = "assets/images/onboarding_1.png";
+  static const String onboarding2 = "assets/images/onboarding_2.png";
+  static const String onboarding3 = "assets/images/onboarding_3.png";
 }

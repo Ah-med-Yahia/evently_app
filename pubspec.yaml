@@ -45,6 +45,9 @@ dependencies:
   provider: ^6.1.5+1
   flutter_localizations:
     sdk: flutter
+  toggle_switch: ^2.3.0
+  dots_indicator: ^4.0.1
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:
