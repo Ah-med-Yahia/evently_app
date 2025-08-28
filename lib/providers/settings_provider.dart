@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SettingsProvider extends ChangeNotifier {
-  ThemeMode currentThemeMode = ThemeMode.dark;
-  String languageCode = 'ar';
+  ThemeMode currentThemeMode = ThemeMode.light;
+  String languageCode = 'en';
 
   void changeTheme(ThemeMode themeMode) {
     currentThemeMode = themeMode;

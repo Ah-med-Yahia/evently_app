@@ -9,6 +9,7 @@ import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/create_event_screen.dart';
 import 'package:evently_app/screens/home_screen.dart';
+import 'package:evently_app/screens/splash_screen.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -28,7 +29,8 @@ Future<void> main() async {
         providers: [
           ChangeNotifierProvider(
               create: (context) => EventsProvider()..getEvents()),
-          ChangeNotifierProvider(create: (context) => UserProvider()),
+          ChangeNotifierProvider(
+              create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => SettingsProvider()),
         ],
         child: EventlyApp(
@@ -58,9 +60,9 @@ class EventlyApp extends StatelessWidget {
         CreateEventScreen.routeName: (_) => const CreateEventScreen(),
         WelcomeScreen.routeName: (_) => const WelcomeScreen(),
         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
+        SplashScreen.routeName:(_)=>const SplashScreen(),
       },
-      initialRoute:
-          seenOnboarding ? LoginScreen.routeName : WelcomeScreen.routeName,
+      initialRoute:SplashScreen.routeName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(Provider.of<SettingsProvider>(context).languageCode),

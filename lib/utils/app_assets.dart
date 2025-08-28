@@ -23,6 +23,7 @@ class AppAssets {
   static const String egyptIcon= 'assets/images/EG.png';
   static const String darkIcon= 'assets/icons/Moon.svg';
   static const String lightIcon= 'assets/icons/Sun.svg';
+  static const String googleIcon= 'assets/icons/google_icon.svg';
   static const String arrowRightIconLight= 'assets/icons/arrow_next.svg';
   static const String arrowLeftIconLight= 'assets/icons/arrow_back_light.svg';
   static const String userBackground = 'assets/images/profile_background.png';

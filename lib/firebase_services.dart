@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class FirebaseServices {
   static CollectionReference<EventModel> getEventsCollections() =>
@@ -31,6 +32,7 @@ class FirebaseServices {
           fromFirestore: (docSnapshot, _) =>
               UserModel.fromJson(docSnapshot.data()!),
           toFirestore: (user, _) => user.toJson());
+
 
   static Future<UserModel> register({
     required String name,
@@ -60,30 +62,66 @@ class FirebaseServices {
     return docSnapshot.data()!;
   }
 
+  static Future<UserModel> signInWithGoogle() async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    CollectionReference<UserModel> collectionUsers = getUsersCollections();
+
+    DocumentSnapshot<UserModel> documentSnapshot =
+        await collectionUsers.doc(userCredential.user!.uid).get();
+    if (documentSnapshot.exists) {
+      return documentSnapshot.data()!;
+    } else {
+      UserModel user = UserModel(
+          email: userCredential.user!.email!,
+          name: userCredential.user!.displayName!,
+          id: userCredential.user!.uid,
+          favEventsIds: []);
+      await collectionUsers.doc(userCredential.user!.uid).set(user);
+      return user;
+    }
+  }
+
   static Future<void> logout() {
     return FirebaseAuth.instance.signOut();
+  }
+
+  static Future<UserModel?> getCurrentUserModel() async {
+    if (FirebaseAuth.instance.currentUser == null) {
+      return null;
+    }
+    CollectionReference<UserModel> userCollections = getUsersCollections();
+    DocumentSnapshot<UserModel> documentSnapshot =
+        await userCollections.doc(FirebaseAuth.instance.currentUser!.uid).get();
+    return documentSnapshot.data();
   }
 
   static Future<void> addFavEvents({required String eventId}) {
     CollectionReference<UserModel> collectionUsers = getUsersCollections();
     DocumentReference<UserModel> userDoc =
         collectionUsers.doc(FirebaseAuth.instance.currentUser!.uid);
-    return userDoc.update(
-      {
-        'favEventsIds':FieldValue.arrayUnion([eventId])
-      }
-    );
+    return userDoc.update({
+      'favEventsIds': FieldValue.arrayUnion([eventId])
+    });
   }
 
   static Future<void> removeFavEvents({required String eventId}) {
     CollectionReference<UserModel> collectionUsers = getUsersCollections();
     DocumentReference<UserModel> userDoc =
         collectionUsers.doc(FirebaseAuth.instance.currentUser!.uid);
-    return userDoc.update(
-      {
-        'favEventsIds':FieldValue.arrayRemove([eventId])
-      }
-    );
+    return userDoc.update({
+      'favEventsIds': FieldValue.arrayRemove([eventId])
+    });
   }
-
 }

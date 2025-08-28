@@ -1,14 +1,18 @@
 import 'package:evently_app/auth/register_screen.dart';
 import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/ui_utils.dart';
 import 'package:evently_app/utils/app_assets.dart';
+import 'package:evently_app/utils/app_theme.dart';
 import 'package:evently_app/widgets/custome_elevated_button.dart';
 import 'package:evently_app/widgets/custome_text_form_field.dart';
+import 'package:evently_app/widgets/toggle_switch_language.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -25,8 +29,10 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController emailContoller = TextEditingController();
   TextEditingController passWordContoller = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Padding(
@@ -86,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.have_no_account,
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: textTheme.titleMedium,
                   ),
                   TextButton(
                       onPressed: () {
@@ -95,7 +101,63 @@ class _LoginScreenState extends State<LoginScreen> {
                       },
                       child: Text(AppLocalizations.of(context)!.createAccount))
                 ],
-              )
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  const Divider(
+                    color: AppTheme.primaryColor,
+                    indent: 35,
+                    endIndent: 35,
+                  ),
+                  Container(
+                      width: 32,
+                      alignment: Alignment.center,
+                      color: Provider.of<SettingsProvider>(context).isDark()
+                          ? AppTheme.backgroundDark
+                          : AppTheme.backgroundLight,
+                      child: Text(
+                        AppLocalizations.of(context)!.or,
+                        style: textTheme.titleMedium!
+                            .copyWith(color: AppTheme.primaryColor),
+                      ))
+                ],
+              ),
+              const SizedBox(
+                height: 25,
+              ),
+              InkWell(
+                onTap: () {
+                  loginWithGoogle();
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  decoration: BoxDecoration(
+                      border: Border.all(color: AppTheme.primaryColor),
+                      borderRadius: BorderRadius.circular(16)),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(AppAssets.googleIcon),
+                      const SizedBox(
+                        width: 3,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.login_google,
+                        style: textTheme.titleLarge!
+                            .copyWith(color: AppTheme.primaryColor),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 24,
+              ),
+              const ToggleSwitchLanguage(),
             ],
           ),
         ),
@@ -121,6 +183,24 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         UiUtils.showErrorMessage(errorMessage);
       }
+    }
+  }
+
+  Future<void> loginWithGoogle() async {
+    try {
+      UserModel user = await FirebaseServices.signInWithGoogle();
+
+      if (mounted) {
+        Provider.of<UserProvider>(listen: false, context)
+            .updateCurrentUser(user);
+        Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+      }
+    } catch (error) {
+      String? errorMessage;
+      if (error is FirebaseAuthException) {
+        errorMessage = error.message;
+      }
+      UiUtils.showErrorMessage(errorMessage);
     }
   }
 }

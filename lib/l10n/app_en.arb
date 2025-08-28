@@ -39,5 +39,11 @@
     "title3_Onboarding":"Connect with Friends & Share Moments",
     "@title3_Onboarding": {},
     "description3_Onboarding":"Make every event memorable by sharing the experience with others. Our platform lets you invite friends, keep everyone in the loop, and celebrate moments together. Capture and share the excitement with your network, so you can relive the highlights and cherish the memories.",
-    "@description3_Onboarding": {}
+    "@description3_Onboarding": {},
+    "or":"Or",
+    "@or": {},
+    "login_google":"Login With Google",
+    "@login_google": {},
+    "welcome":"W E L C O M E 🥀",
+    "@welcome": {}
 }

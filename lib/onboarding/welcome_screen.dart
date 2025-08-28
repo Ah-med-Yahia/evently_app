@@ -2,6 +2,7 @@ import 'package:evently_app/onboarding/onBoarding_screen.dart';
 import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_theme.dart';
+import 'package:evently_app/widgets/toggle_switch_language.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,30 +67,7 @@ class WelcomeScreen extends StatelessWidget {
                         .copyWith(color: AppTheme.primaryColor),
                   ),
                   const Spacer(),
-                  Container(
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                        border:
-                            Border.all(width: 1, color: AppTheme.primaryColor),
-                        borderRadius: BorderRadius.circular(10)),
-                    child: ToggleSwitch(
-                      minWidth: 50,
-                      minHeight: 30,
-                      activeBgColor: const [AppTheme.primaryColor],
-                      inactiveBgColor: Colors.transparent,
-                      initialLabelIndex:
-                          settingsProvider.languageCode == 'en' ? 1 : 0,
-                      totalSwitches: 2,
-                      customWidgets: [
-                        Image.asset(AppAssets.egyptIcon),
-                        Image.asset(AppAssets.usaIcon),
-                      ],
-                      onToggle: (index) {
-                        settingsProvider
-                            .changeLanguage(index == 1 ? 'en' : 'ar');
-                      },
-                    ),
-                  ),
+                  const ToggleSwitchLanguage()
                 ],
               ),
               const SizedBox(
