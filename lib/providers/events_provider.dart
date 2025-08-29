@@ -42,4 +42,9 @@ class EventsProvider with ChangeNotifier {
     favoriteEvents.removeWhere((event) => event.id == eventId);
     notifyListeners();
   }
+
+  Future<void> editEvent(EventModel event) async {
+    await FirebaseServices.editEvent(event);
+    notifyListeners();
+  }
 }

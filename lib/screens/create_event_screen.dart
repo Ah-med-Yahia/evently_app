@@ -13,6 +13,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
+
+
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -88,7 +92,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Title',
+                      AppLocalizations.of(context)!.title,
                       style: textTheme.titleMedium,
                     ),
                     const SizedBox(
@@ -140,7 +144,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          'Event Date',
+                          AppLocalizations.of(context)!.eventDate,
                           style: textTheme.titleMedium,
                         ),
                         const Spacer(),
@@ -181,7 +185,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          'Event Time',
+                          AppLocalizations.of(context)!.eventTime,
                           style: textTheme.titleMedium,
                         ),
                         const Spacer(),

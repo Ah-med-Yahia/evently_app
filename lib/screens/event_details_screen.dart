@@ -1,5 +1,6 @@
 import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/screens/edit_event_screen.dart';
 import 'package:evently_app/utils/app_assets.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +27,11 @@ class EventDetailsScreen extends StatelessWidget {
         title: Text(AppLocalizations.of(context)!.event_details),
         actions: [
           IconButton(
-              onPressed: () {}, icon: SvgPicture.asset(AppAssets.editIcon)),
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(EditEventScreen.routeName, arguments: event);
+              },
+              icon: SvgPicture.asset(AppAssets.editIcon)),
           IconButton(
               onPressed: () async {
                 showDialog(

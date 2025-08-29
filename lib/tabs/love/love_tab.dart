@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:evently_app/providers/events_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/utils/app_assets.dart';
@@ -49,6 +51,7 @@ class _LoveTabState extends State<LoveTab> {
               child: ListView.separated(
                 itemCount: eventsProvider.favoriteEvents.length,
                 itemBuilder: (_, index) {
+                  log(eventsProvider.favoriteEvents.length.toString());
                   return EventItem(
                     event: eventsProvider.favoriteEvents[index],
                   );

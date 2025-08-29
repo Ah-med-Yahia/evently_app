@@ -8,6 +8,7 @@ import 'package:evently_app/providers/events_provider.dart';
 import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/create_event_screen.dart';
+import 'package:evently_app/screens/edit_event_screen.dart';
 import 'package:evently_app/screens/event_details_screen.dart';
 import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/screens/splash_screen.dart';
@@ -30,8 +31,7 @@ Future<void> main() async {
         providers: [
           ChangeNotifierProvider(
               create: (context) => EventsProvider()..getEvents()),
-          ChangeNotifierProvider(
-              create: (context) => UserProvider()),
+          ChangeNotifierProvider(create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => SettingsProvider()),
         ],
         child: EventlyApp(
@@ -61,10 +61,11 @@ class EventlyApp extends StatelessWidget {
         CreateEventScreen.routeName: (_) => const CreateEventScreen(),
         WelcomeScreen.routeName: (_) => const WelcomeScreen(),
         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
-        SplashScreen.routeName:(_)=>const SplashScreen(),
-        EventDetailsScreen.routeName:(_)=>const EventDetailsScreen(),
+        SplashScreen.routeName: (_) => const SplashScreen(),
+        EventDetailsScreen.routeName: (_) => const EventDetailsScreen(),
+        EditEventScreen.routeName: (_) => const EditEventScreen()
       },
-      initialRoute:SplashScreen.routeName,
+      initialRoute: SplashScreen.routeName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
       locale: Locale(Provider.of<SettingsProvider>(context).languageCode),

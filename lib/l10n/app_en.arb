@@ -49,5 +49,13 @@
     "event_details":"Event Details",
     "@event_details": {},
     "description":"Description",
-    "@description": {}
+    "@description": {},
+    "edit_event":"Edit Event",
+    "@edit_event": {},
+    "title":"Title",
+    "@title": {},
+    "eventDate":"Event Date",
+    "@eventDate": {},
+    "eventTime":"Event Time",
+    "@eventTime": {}
 }

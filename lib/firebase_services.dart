@@ -124,8 +124,14 @@ class FirebaseServices {
     });
   }
 
-  static Future<void> removeEventFromFireStore({required String eventId}) async{
+  static Future<void> removeEventFromFireStore(
+      {required String eventId}) async {
     CollectionReference<EventModel> eventsCollection = getEventsCollections();
     await eventsCollection.doc(eventId).delete();
+  }
+
+  static Future<void> editEvent(EventModel event) async{
+    CollectionReference<EventModel> eventsCollection = getEventsCollections();
+    await eventsCollection.doc(event.id).update(event.toJson());
   }
 }

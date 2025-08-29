@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class CustomeTextFormField extends StatefulWidget {
   const CustomeTextFormField(
       {super.key,
-      required this.hintText,
+      this.hintText = '',
       this.controller,
       this.onChanged,
       this.validator,

@@ -49,5 +49,13 @@
     "event_details":"تفاصيل الحدث",
     "@event_details": {},
     "description":"الوصف",
-    "@description": {}
+    "@description": {},
+    "edit_event":"تعديل الحدث",
+    "@edit_event": {},
+    "title":"العنوان",
+    "@title": {},
+    "eventDate":"تاريخ الحدث",
+    "@eventDate": {},
+    "eventTime":"وقت الحدث ",
+    "@eventTime": {}
 }
