@@ -33,7 +33,6 @@ class FirebaseServices {
               UserModel.fromJson(docSnapshot.data()!),
           toFirestore: (user, _) => user.toJson());
 
-
   static Future<UserModel> register({
     required String name,
     required String email,
@@ -123,5 +122,10 @@ class FirebaseServices {
     return userDoc.update({
       'favEventsIds': FieldValue.arrayRemove([eventId])
     });
+  }
+
+  static Future<void> removeEventFromFireStore({required String eventId}) async{
+    CollectionReference<EventModel> eventsCollection = getEventsCollections();
+    await eventsCollection.doc(eventId).delete();
   }
 }

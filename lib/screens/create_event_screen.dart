@@ -1,6 +1,6 @@
-import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/category_model.dart';
 import 'package:evently_app/models/event_model.dart';
+import 'package:evently_app/providers/events_provider.dart';
 import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/tabs/home/tab_item.dart';
 import 'package:evently_app/ui_utils.dart';
@@ -155,7 +155,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                                     .add(const Duration(days: 365)));
                             selectedDate = date;
                             setState(() {});
-                                                    },
+                          },
                           child: Text(
                             selectedDate == null
                                 ? 'Choose Date'
@@ -235,7 +235,7 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
             selectedTime!.hour,
             selectedTime!.minute,
           ));
-      FirebaseServices.createEvent(event).then((_) {
+      Provider.of<EventsProvider>(listen: false,context).addEvent(event).then((_) {
         Navigator.of(context).pop();
         UiUtils.showSuccessMessage('Event Created Succesfully 🤩');
       }).catchError((error) {

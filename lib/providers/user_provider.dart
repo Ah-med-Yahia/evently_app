@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:evently_app/firebase_services.dart';
 import 'package:evently_app/models/user_model.dart';
 import 'package:flutter/foundation.dart';
@@ -9,7 +7,6 @@ class UserProvider with ChangeNotifier {
 
   Future<void> loadCurrentUser() async {
     currentUser = await FirebaseServices.getCurrentUserModel();
-    log('message');
     notifyListeners();
   }
 

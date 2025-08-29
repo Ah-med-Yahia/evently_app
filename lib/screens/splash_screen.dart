@@ -44,37 +44,39 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            children: [
-              Image.asset(
-                AppAssets.logo,
-                height: MediaQuery.sizeOf(context).height * .2,
-                fit: BoxFit.fill,
-              ),
-              const Spacer(
-                flex: 1,
-              ),
-              Text(
-                AppLocalizations.of(context)!.welcome,
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(color: AppTheme.primaryColor),
-              ),
-              const Spacer(
-                flex: 2,
-              ),
-              Text(
-                'By : Ahmed Yahia',
-                style: Theme.of(context)
-                    .textTheme
-                    .headlineSmall!
-                    .copyWith(color: AppTheme.primaryColor),
-              ),
-              const SizedBox(height: 10,)
-            ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12),
+          child: SizedBox(
+            width: double.infinity,
+            child: Column(
+              children: [
+                Image.asset(
+                  AppAssets.logo,
+                  height: MediaQuery.sizeOf(context).height * .2,
+                  fit: BoxFit.fill,
+                ),
+                const Spacer(
+                  flex: 1,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.welcome,
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: AppTheme.primaryColor),
+                ),
+                const Spacer(
+                  flex: 2,
+                ),
+                Text(
+                  'By : Ahmed Yahia',
+                  style: Theme.of(context)
+                      .textTheme
+                      .headlineSmall!
+                      .copyWith(color: AppTheme.primaryColor),
+                ),
+              ],
+            ),
           ),
         ),
       ),

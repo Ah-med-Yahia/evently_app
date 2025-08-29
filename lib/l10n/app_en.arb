@@ -45,5 +45,9 @@
     "login_google":"Login With Google",
     "@login_google": {},
     "welcome":"W E L C O M E 🥀",
-    "@welcome": {}
+    "@welcome": {},
+    "event_details":"Event Details",
+    "@event_details": {},
+    "description":"Description",
+    "@description": {}
 }

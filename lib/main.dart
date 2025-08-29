@@ -8,6 +8,7 @@ import 'package:evently_app/providers/events_provider.dart';
 import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/create_event_screen.dart';
+import 'package:evently_app/screens/event_details_screen.dart';
 import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/screens/splash_screen.dart';
 import 'package:evently_app/utils/app_theme.dart';
@@ -61,6 +62,7 @@ class EventlyApp extends StatelessWidget {
         WelcomeScreen.routeName: (_) => const WelcomeScreen(),
         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
         SplashScreen.routeName:(_)=>const SplashScreen(),
+        EventDetailsScreen.routeName:(_)=>const EventDetailsScreen(),
       },
       initialRoute:SplashScreen.routeName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

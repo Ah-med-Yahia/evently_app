@@ -45,5 +45,9 @@
     "login_google":"التسجيل بحساب جوجل",
     "@login_google": {},
     "welcome":"🥀 أهلا بك",
-    "@welcome": {}
+    "@welcome": {},
+    "event_details":"تفاصيل الحدث",
+    "@event_details": {},
+    "description":"الوصف",
+    "@description": {}
 }
