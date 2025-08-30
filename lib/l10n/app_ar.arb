@@ -57,5 +57,7 @@
     "eventDate":"تاريخ الحدث",
     "@eventDate": {},
     "eventTime":"وقت الحدث ",
-    "@eventTime": {}
+    "@eventTime": {},
+    "location":"الموقع",
+    "@location": {}
 }

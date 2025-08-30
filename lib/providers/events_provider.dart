@@ -41,6 +41,7 @@ class EventsProvider with ChangeNotifier {
     allEvents.removeWhere((event) => event.id == eventId);
     favoriteEvents.removeWhere((event) => event.id == eventId);
     notifyListeners();
+    
   }
 
   Future<void> editEvent(EventModel event) async {

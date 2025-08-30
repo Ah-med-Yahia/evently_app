@@ -5,12 +5,14 @@ import 'package:evently_app/firebase_options.dart';
 import 'package:evently_app/onboarding/onBoarding_screen.dart';
 import 'package:evently_app/onboarding/welcome_screen.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/loaction_provider.dart';
 import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/create_event_screen.dart';
 import 'package:evently_app/screens/edit_event_screen.dart';
 import 'package:evently_app/screens/event_details_screen.dart';
 import 'package:evently_app/screens/home_screen.dart';
+import 'package:evently_app/screens/pick_location_screen.dart';
 import 'package:evently_app/screens/splash_screen.dart';
 import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
@@ -33,6 +35,9 @@ Future<void> main() async {
               create: (context) => EventsProvider()..getEvents()),
           ChangeNotifierProvider(create: (context) => UserProvider()),
           ChangeNotifierProvider(create: (context) => SettingsProvider()),
+          ChangeNotifierProvider(
+              create: (context) =>
+                  LoactionProvider()..getCurrentLocation(context))
         ],
         child: EventlyApp(
           seenOnboarding: prefs.getBool('onboarding_done') ?? false,
@@ -63,7 +68,8 @@ class EventlyApp extends StatelessWidget {
         OnboardingScreen.routeName: (_) => const OnboardingScreen(),
         SplashScreen.routeName: (_) => const SplashScreen(),
         EventDetailsScreen.routeName: (_) => const EventDetailsScreen(),
-        EditEventScreen.routeName: (_) => const EditEventScreen()
+        EditEventScreen.routeName: (_) => const EditEventScreen(),
+        PickLocationScreen.routeName: (_) => const PickLocationScreen(),
       },
       initialRoute: SplashScreen.routeName,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

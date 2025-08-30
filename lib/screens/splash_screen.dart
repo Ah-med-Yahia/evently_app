@@ -58,6 +58,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 const Spacer(
                   flex: 1,
                 ),
+                const CircularProgressIndicator(color: AppTheme.primaryColor,),
+                const SizedBox(height: 12,),
                 Text(
                   AppLocalizations.of(context)!.welcome,
                   style: Theme.of(context)

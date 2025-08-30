@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:evently_app/location_services.dart';
 import 'package:evently_app/models/category_model.dart';
 import 'package:evently_app/models/event_model.dart';
 import 'package:evently_app/providers/events_provider.dart';
+import 'package:evently_app/providers/loaction_provider.dart';
 import 'package:evently_app/providers/settings_provider.dart';
 import 'package:evently_app/tabs/home/tab_item.dart';
 import 'package:evently_app/ui_utils.dart';
@@ -11,12 +15,10 @@ import 'package:evently_app/widgets/custome_text_form_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-
-
-
 
 class CreateEventScreen extends StatefulWidget {
   const CreateEventScreen({super.key});
@@ -36,11 +38,16 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime;
   DateFormat dateFormat = DateFormat('d/M/yyyy');
+  LatLng? locationLatLng;
+  String? address;
 
   @override
   Widget build(BuildContext context) {
     TextTheme textTheme = Theme.of(context).textTheme;
     SettingsProvider settingsProvider = Provider.of<SettingsProvider>(context);
+    LoactionProvider loactionProvider = Provider.of<LoactionProvider>(context);
+    loactionProvider.userLocation ??
+        loactionProvider.getCurrentLocation(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create Event'),
@@ -209,7 +216,55 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
                       ],
                     ),
                     const SizedBox(
-                      height: 24,
+                      height: 16,
+                    ),
+                    Text(
+                      AppLocalizations.of(context)!.location,
+                      style: textTheme.titleMedium,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    InkWell(
+                      onTap: () async {
+                        LatLng? latLng =
+                            await LocationServices.pickLocation(context);
+                        if (latLng != null) {
+                          locationLatLng = latLng;
+                          address =
+                              await LocationServices.getLocationAddress(latLng);
+                          setState(() {});
+                        }
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.all(8),
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: AppTheme.primaryColor),
+                              borderRadius: BorderRadius.circular(16)),
+                          child: Row(
+                            children: [
+                              SvgPicture.asset(AppAssets.locationIconColored),
+                              const SizedBox(
+                                width: 8,
+                              ),
+                              Text(
+                                address == null
+                                    ? 'Choose Event Location'
+                                    : address!,
+                                style: textTheme.titleMedium!
+                                    .copyWith(color: AppTheme.primaryColor),
+                              ),
+                              const Spacer(),
+                              const Icon(
+                                Icons.arrow_forward_ios_outlined,
+                                color: AppTheme.primaryColor,
+                              )
+                            ],
+                          )),
+                    ),
+                    const SizedBox(
+                      height: 16,
                     ),
                     CustomeElevatedButton(
                         label: 'Add Event', onPressed: createEvent)
@@ -226,12 +281,17 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
   void createEvent() {
     if (formKey.currentState!.validate() &&
         selectedDate != null &&
-        selectedTime != null) {
+        selectedTime != null &&
+        address != null) {
+      log('${locationLatLng!.latitude} ${locationLatLng!.longitude} ${address!}');
       EventModel event = EventModel(
           userId: FirebaseAuth.instance.currentUser!.uid,
           title: eventTitleController.text,
           description: descriptionController.text,
           category: currentCategory,
+          latitude: locationLatLng!.latitude,
+          longtiude: locationLatLng!.longitude,
+          address: address!,
           dateTime: DateTime(
             selectedDate!.year,
             selectedDate!.month,
@@ -239,11 +299,14 @@ class _CreateEventScreenState extends State<CreateEventScreen> {
             selectedTime!.hour,
             selectedTime!.minute,
           ));
-      Provider.of<EventsProvider>(listen: false,context).addEvent(event).then((_) {
+      Provider.of<EventsProvider>(listen: false, context)
+          .addEvent(event)
+          .then((_) {
         Navigator.of(context).pop();
         UiUtils.showSuccessMessage('Event Created Succesfully 🤩');
       }).catchError((error) {
-        UiUtils.showErrorMessage('Failed to create Event 😥');
+        error as FirebaseException;
+        UiUtils.showErrorMessage(error.message);
       });
     }
   }

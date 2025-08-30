@@ -57,5 +57,7 @@
     "eventDate":"Event Date",
     "@eventDate": {},
     "eventTime":"Event Time",
-    "@eventTime": {}
+    "@eventTime": {},
+    "location":"Location",
+    "@location": {}
 }
