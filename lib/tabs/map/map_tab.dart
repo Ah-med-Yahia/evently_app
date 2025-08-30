@@ -54,16 +54,12 @@ class _MapTabState extends State<MapTab> {
 
     return eventsProvider.allEvents.isEmpty
         ? Center(
-            child: Column(
-              children: [
-                Text(
-                  "There is No Events Added 😴",
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(color: AppTheme.primaryColor),
-                )
-              ],
+            child: Text(
+              "There is No Events Added 😴",
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: AppTheme.primaryColor),
             ),
           )
         : Stack(

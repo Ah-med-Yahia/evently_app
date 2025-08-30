@@ -19,14 +19,13 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  final SharedPreferences prefs = await SharedPreferences.getInstance();
+  
 
   runApp(
     MultiProvider(
@@ -39,16 +38,13 @@ Future<void> main() async {
               create: (context) =>
                   LoactionProvider()..getCurrentLocation(context))
         ],
-        child: EventlyApp(
-          seenOnboarding: prefs.getBool('onboarding_done') ?? false,
+        child: const EventlyApp(
         )),
   );
 }
 
 class EventlyApp extends StatelessWidget {
-  const EventlyApp({super.key, required this.seenOnboarding});
-
-  final bool seenOnboarding;
+  const EventlyApp({super.key });
 
   // This widget is the root of your application.
   @override

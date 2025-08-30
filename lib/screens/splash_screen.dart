@@ -1,5 +1,6 @@
 import 'package:evently_app/auth/login_screen.dart';
 import 'package:evently_app/models/user_model.dart';
+import 'package:evently_app/onboarding/welcome_screen.dart';
 import 'package:evently_app/providers/user_provider.dart';
 import 'package:evently_app/screens/home_screen.dart';
 import 'package:evently_app/utils/app_assets.dart';
@@ -7,6 +8,7 @@ import 'package:evently_app/utils/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -25,11 +27,17 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(seconds: 2),
       () async {
-        await Provider.of<UserProvider>(listen: false, context)
-            .loadCurrentUser();
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        if (mounted) {
+          await Provider.of<UserProvider>(listen: false, context)
+              .loadCurrentUser();
+        }
+
         if (mounted) {
           user = Provider.of<UserProvider>(listen: false, context).currentUser;
-          if (user == null) {
+          if (!(prefs.getBool('onboarding_done') ?? false)) {
+            Navigator.of(context).pushReplacementNamed(WelcomeScreen.routeName);
+          } else if (user == null) {
             Navigator.of(context).pushReplacementNamed(LoginScreen.routeName);
           } else {
             Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
@@ -58,8 +66,12 @@ class _SplashScreenState extends State<SplashScreen> {
                 const Spacer(
                   flex: 1,
                 ),
-                const CircularProgressIndicator(color: AppTheme.primaryColor,),
-                const SizedBox(height: 12,),
+                const CircularProgressIndicator(
+                  color: AppTheme.primaryColor,
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
                 Text(
                   AppLocalizations.of(context)!.welcome,
                   style: Theme.of(context)

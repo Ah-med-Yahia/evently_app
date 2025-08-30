@@ -214,7 +214,7 @@ class _EditEventScreenState extends State<EditEventScreen> {
                     height: 24,
                   ),
                   CustomeElevatedButton(
-                      label: 'Add Event',
+                      label: 'Edit Event',
                       onPressed: () {
                         editEvent(event);
                       })
